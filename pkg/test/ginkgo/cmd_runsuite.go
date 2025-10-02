@@ -88,6 +88,9 @@ type GinkgoRunSuiteOptions struct {
 	ExactMonitorTests   []string
 	DisableMonitorTests []string
 	Extension           *extension.Extension
+
+	// WithHypervisorConfigJSON contains JSON configuration for hypervisor-based recovery operations
+	WithHypervisorConfigJSON string
 }
 
 func NewGinkgoRunSuiteOptions(streams genericclioptions.IOStreams) *GinkgoRunSuiteOptions {
@@ -117,6 +120,7 @@ func (o *GinkgoRunSuiteOptions) BindFlags(flags *pflag.FlagSet) {
 	flags.IntVar(&o.ShardID, "shard-id", o.ShardID, "When tests are sharded across instances, which instance we are")
 	flags.IntVar(&o.ShardCount, "shard-count", o.ShardCount, "Number of shards used to run tests across multiple instances")
 	flags.StringVar(&o.ShardStrategy, "shard-strategy", o.ShardStrategy, "Which strategy to use for sharding (hash)")
+	flags.StringVar(&o.WithHypervisorConfigJSON, "with-hypervisor-json", os.Getenv("HYPERVISOR_CONFIG"), "JSON configuration for hypervisor-based recovery operations. Must contain hypervisorIP, sshUser, and privateKeyPath fields.")
 }
 
 func (o *GinkgoRunSuiteOptions) Validate() error {
